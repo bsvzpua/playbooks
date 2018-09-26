@@ -23,14 +23,14 @@
     priv=*.*:ALL
   become: yes
 
-- name: Create remoute mysql user
+- name: Create remote mysql user
   mysql_user:
-    name={{ wp_remoute_mysql_user }}
+    name={{ wp_remote_mysql_user }}
     password={{ wp_mysql_password }}
     priv=*.*:ALL
   become: yes  
 
-- name: allow remoute connection
+- name: allow remote connection
   become: yes
   lineinfile:
    dest=/etc/mysql/mysql.conf.d/mysqld.cnf
