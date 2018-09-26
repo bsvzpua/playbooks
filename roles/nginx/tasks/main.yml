@@ -1,0 +1,30 @@
+#---
+# tasks file for nginx
+- name: ensure nginx is at the latest version  
+  apt: name=nginx state=latest
+  become: yes
+- name: start nginx
+  service:
+   name: nginx
+   state: started
+  become: yes
+- name: nginx wp config
+  become: yes
+  copy:
+   dest: /etc/nginx/sites-enabled/default
+   content: "server {
+     location / {
+         proxy_pass             http://{{ backend_host }};
+         proxy_set_header       Host $host;
+         proxy_buffering        on;
+         proxy_cache            STATIC;
+         proxy_cache_valid      200  1d;
+         proxy_cache_use_stale  error timeout invalid_header updating http_500 http_502 http_503 http_504;
+     }
+   }"
+- name: change proxy-pass to correct backend ip
+  become: yes
+  lineinfile:
+   dest=/etc/nginx/sites-enabled/default
+   regexp="(.)+proxy_pass http://{{ backend_host }};"
+   line="proxy_pass http://{{ backend_host }};"
