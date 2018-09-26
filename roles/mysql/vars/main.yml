@@ -1,4 +1,4 @@
 ---
 # vars file for mysql
 #backend_host: hostvars[backend]['ansible_default_ipv4']['address']
-wp_remoute_mysql_user: wordpress@ "{{ wp_web_host }}"
+wp_remote_mysql_user: wordpress@ "{{ wp_web_host }}"
